@@ -21,6 +21,9 @@ def openfile():
                 if line.count(starter[choice])!=0:
                         words=removeNewlines(line,chat_index)
                         getwords(words)
+                        #print("len(count)",len(count))
+                        #print("len(wordlist)",len(wordlist))
+                        #print("wordlist[len(wordlist)-1]",wordlist[len(wordlist)-1])
                 del data[0]
 
         infile.close()
@@ -78,7 +81,35 @@ def removeNewlines(n_line,n_index):
                         #print("je moeder",words[word].index("\n"))
                         words[word]=words[word][:words[word].index("\n")]
                         #print(words[word])
+        
+        for i in range(len(words)):
+                if words[i].find(".")!=-1 or words[i].find("?")!=-1 or words[i].find(",")!=-1 or words[i].find("\'")!=-1 or words[i].find("\"")!=-1:
+                        words[i]=removeElements(words[i])
+                if len(words[i])>50:
+                        words[i]=""
+                        
+                
         return words
+
+
+def removeElements(word):
+        word=list(word)
+        while word.count(".")>0 or word.count("?")>0 or word.count(",")>0 or word.count("\'")>0 or word.count("\"")>0:
+                if word.count(".")>0:
+                        word.remove(".")
+                if word.count("?")>0:
+                        word.remove("?")
+                if word.count(",")>0:
+                        word.remove(",")
+                if word.count("\'")>0:
+                        word.remove("\'")
+                if word.count("\"")>0:
+                        word.remove("\"")
+
+        return "".join(word)
+                
+                
+
 
 def getwords(w_words):
         """

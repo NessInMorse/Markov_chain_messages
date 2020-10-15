@@ -18,7 +18,7 @@ def openfile():
         for line in data.readlines():
                 chat_index=getchatter(line)
                 if line.count(starter[choice])!=0:
-                        words=removeNewlines(line,chat_index6)
+                        words=removeNewlines(line,chat_index)
                         getwords(words)
 
 

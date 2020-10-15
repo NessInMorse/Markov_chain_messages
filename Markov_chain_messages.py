@@ -13,27 +13,32 @@ def openfile():
         in:nothing
         out:depending on functions in-line
         """
-        data=open("vallie_marc.txt","r",encoding='utf-8')
+        infile=open("vallie_marc.txt","r",encoding='utf-8')
         choice=int(input("Welke chatter wil je als basis gebruiken?\n"))
-        for line in data.readlines():
+        data=infile.readlines()
+        for line in data:
                 chat_index=getchatter(line)
                 if line.count(starter[choice])!=0:
                         words=removeNewlines(line,chat_index)
+                        if line.count("banaan")>0:
+                                print("lekker bezig")
                         getwords(words)
+                del data[0]
 
-
-
+        infile.close()
         makeNewchats(choice)
 
         
         n_chat=sum(start_count)
         for i in range(len(start_count)):
                 start_count[i]=float(start_count[i]/n_chat)
-        print(start_count)
-        print(n_chat)
-        print(len(wordlist[0]))
-        print(len(count))
-        print(count[0])
+        print("start_count",start_count)
+        print("n_chat",n_chat)
+        print("len(wordlist)",len(wordlist))
+        print("len(count)",len(count))
+        print("count",count[wordlist.index("banaan")])
+        print("count",count)
+        print("len(count[0])",len(count[0]))
 
 
 
@@ -85,10 +90,9 @@ def getwords(w_words):
         """
         global wordlist
         global count
-        global rel_count
         #print("w_line",w_line)
         #print("w_words",w_words)
-        last_word="#138120938120938129038123983192081329038139081298303901281239821391320881320931820913289012809312832"
+        last_word=" "
         for word in w_words:
                 word=word.lower()
                 """
@@ -97,7 +101,7 @@ def getwords(w_words):
                 Add +1 to the relative (to last_word)
                 """
                 if word in wordlist:
-                        if last_word!="#138120938120938129038123983192081329038139081298303901281239821391320881320931820913289012809312832":
+                        if last_word!=" ":
                                 count[wordlist.index(last_word)]\
                                         [wordlist.index(word)]+=1  
                 #if not found
@@ -112,9 +116,7 @@ def getwords(w_words):
                                         count[i].append(0)
                         
                         #print(len(wordlist))
-                        #print(len(rel_count))
-                        #print(len(rel_count[0]))
-                        if last_word!="#138120938120938129038123983192081329038139081298303901281239821391320881320931820913289012809312832":
+                        if last_word!=" ":
                                 count[wordlist.index(last_word)]\
                                 [wordlist.index(word)]+=1
                         
@@ -130,10 +132,10 @@ def makeNewchats(c_choice):
         """
         global message_list
         count_sorted=[z[:] for z in count]
-        print("count",count[0])
+        #print("count",count[0])
         count_sorted=sortlist(count_sorted)
-        print("count_sorted",count_sorted[0])
-        print("count",count[0])
+        #print("count_sorted",count_sorted[0])
+        #print("count",count[0])
         last_word=wordlist[(randint(0,len(wordlist)-1))]
         r=0
         #sentences
@@ -213,7 +215,6 @@ def sortlist(listing):
                                 listing[i][j]=listing[i][j-1]+(listing[i][j]/total)
                         else:
                                 listing[i][j]=listing[i][j]/total
-        print("list 7",listing[7])
         return listing
         
 
@@ -221,7 +222,6 @@ def sortlist(listing):
 
 def main():
         openfile()
-        print("count",count)
         for message in message_list:
                 print(message)
 

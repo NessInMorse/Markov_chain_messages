@@ -20,8 +20,6 @@ def openfile():
                 chat_index=getchatter(line)
                 if line.count(starter[choice])!=0:
                         words=removeNewlines(line,chat_index)
-                        if line.count("banaan")>0:
-                                print("lekker bezig")
                         getwords(words)
                 del data[0]
 
@@ -112,7 +110,7 @@ def getwords(w_words):
                         wordlist.append(word.lower())
                         count.append([])
                         for i in range(len(count)):
-                                for j in range(len(count)-len(count[i])):
+                                while len(count[i])<len(count):
                                         count[i].append(0)
                         
                         #print(len(wordlist))

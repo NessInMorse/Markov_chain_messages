@@ -37,8 +37,6 @@ def openfile():
         print("n_chat",n_chat)
         print("len(wordlist)",len(wordlist))
         print("len(count)",len(count))
-        print("count",count[wordlist.index("banaan")])
-        print("count",count)
         print("len(count[0])",len(count[0]))
 
 
@@ -85,7 +83,7 @@ def removeNewlines(n_line,n_index):
         for i in range(len(words)):
                 if words[i].find(".")!=-1 or words[i].find("?")!=-1 or words[i].find(",")!=-1 or words[i].find("\'")!=-1 or words[i].find("\"")!=-1:
                         words[i]=removeElements(words[i])
-                if len(words[i])>50:
+                if len(words[i])>30:
                         words[i]=""
                         
                 
@@ -132,18 +130,20 @@ def getwords(w_words):
                 if word in wordlist:
                         if last_word!=" ":
                                 count[wordlist.index(last_word)]\
-                                        [wordlist.index(word)]+=1  
+                                        [wordlist.index(word)]+=1
+
                 #if not found
                 #add it to the wordlist
                 #count should get a new instance
                 #relative count gets a new instance for each list
                 else:
-                        wordlist.append(word.lower())
+                        wordlist.append(word)
                         count.append([])
                         for i in range(len(count)):
+                                count[i].append(0)
                                 while len(count[i])<len(count):
                                         count[i].append(0)
-                        
+                                        
                         #print(len(wordlist))
                         if last_word!=" ":
                                 count[wordlist.index(last_word)]\

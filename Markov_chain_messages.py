@@ -1,6 +1,9 @@
 from random import randint
-from random import random
 from sys import getsizeof
+from random import choices
+from time import time
+from time import localtime
+from time import asctime
 
 starter = ["Fujoshi-chan", "-. . ... ..."]
 start_count = [0, 0]
@@ -20,11 +23,11 @@ def openfile():
         data = infile.readlines()
         for line in data:
                 chat_index = getchatter(line)
-                if starter[choice] in line 0:
+                if starter[choice] in line:
                         words = removeNewlines(line, chat_index)
                         getwords(words)
-                        print("wordlist", getsizeof(wordlist))
-                        print("count                    ", getsizeof(count))
+                        #print("wordlist", getsizeof(wordlist))
+                        #print("count                    ", getsizeof(count))
                         # print("len(count)",len(count))
                         # print("len(wordlist)",len(wordlist))
                         # print("wordlist[len(wordlist)-1]",wordlist[len(wordlist)-1])
@@ -163,106 +166,35 @@ def makeNewchats(c_choice):
 
         """
         global message_list
-        count_sorted=[z[:] for z in count]
+        #count_sorted=[z[:] for z in count]
         #print("count",count[0])
-        count_sorted=sortlist(count_sorted)
+        #count_sorted=sortlist(count_sorted)
         #print("count_sorted",count_sorted[0])
         #print("count",count[0])
         
-        r=0
         #sentences
-        relative()
+        #relative()
         for i in range(100):
                 message = starter[c_choice]+":"
-                last_word = wordlist[(randint(0,len(wordlist)-1))]
+                last_word = randint(0,len(wordlist)-1)
                 #words
                 for j in range(randint(5,25)):
-                        r = random()
-                        #print(r)
-                        #find the random word
-                        for k in range(len(count_sorted[wordlist.index(last_word)])):
-                                if count_sorted[wordlist.index(last_word)][k]>r:
-                                        #Finds the specific word used
-                                        #By reversing the cumulative sum in sortlist (by doing, current minus last)
-                                        #find the index of that in count
-                                        #Then use that index for the word in the wordlist
-
-                                        
-                                        #print(j)
-                                        #print(k)
-                                        #print(r)
-                                        #print("k",count_sorted[wordlist.index(last_word)][k])
-                                        #print("k-1",count_sorted[wordlist.index(last_word)][k-1])
-                                        #print("k- k-1",(count_sorted[wordlist.index(last_word)][k]) - (count_sorted[wordlist.index(last_word)][k-1]))
-                                        #print("count[wordlist.index(last_word)]",count[wordlist.index(last_word)])
-                                        #print("count_sorted[wordlist.index(last_word)]",count_sorted[wordlist.index(last_word)])
-                                        #print("wordlist",wordlist)
-                                        message += " "+wordlist[count[wordlist.index(last_word)].index(\
-                                                        int(1000000*\
-                                                            (count_sorted[wordlist.index(last_word)][k]\
-                                                             -count_sorted[wordlist.index(last_word)][k - 1])))]
-                                        last_word = wordlist[count[wordlist.index(last_word)].index\
-                                                           (int(1000000*\
-                                                                (count_sorted[wordlist.index(last_word)][k]\
-                                                                 -count_sorted[wordlist.index(last_word)][k - 1])))]
+                        new_word=count[last_word].index(choices(count[last_word],count[last_word])[0])
+                        message+=" "+wordlist[new_word]
+                        last_word=count[last_word].index(choices(count[last_word],count[last_word])[0])
                                         
                 message_list.append(message)
                 message = ""
 
 
-def relative():
-        """
-        Takes count, makes all elements within the lists and takes their relative to the total of the list
-        in:count
-        out:altered count
-        """
-        global count
-        
-        for i in range(len(count)):
-                total = sum(count[i])
-                if total == 0:
-                        total=1
-                for j in range(len(count[i])):
-                        count[i][j]=int(1000000*(count[i][j]/total))
-
-
-def sortlist(listing):
-        """
-        sorts for each element in a list and makes them relative to the total
-        in: list
-        out: sorted list
-        """
-        total=1
-        
-        for i in range(len(listing)):
-                #print("before",listing[i])
-                listing[i].sort(reverse=True)
-                #print("after",listing[i])
-                total = sum(listing[i])
-
-                """
-                Avoid division by 0
-                """
-                if total == 0:
-                        total = 1
-                
-                for j in range(len(listing[i])):
-                        """
-                        creating a cumulative list
-                        """
-                        if j>0 and i==0:
-                                #print(listing[i][j]+listing[i][j-1])
-                                listing[i][j] = listing[i][j - 1]\
-                                               + (listing[i][j] / total)
-                        else:
-                                listing[i][j] = listing[i][j] / total
-        return listing
-
-
 def main():
         openfile()
+        file=open("analysis.txt","a")
+        file.write(f"\n\n{asctime(localtime(time()))}____________________________________________________________")
         for message in message_list:
                 print(message)
+                file.write(message)
+        file.close()
 
 
 main()

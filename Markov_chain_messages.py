@@ -189,7 +189,7 @@ def makeNewchats(c_choice):
 
 def main():
         openfile()
-        file=open("analysis.txt","a")
+        file=open("analysis.txt","a",encoding='utf-8')
         file.write(f"\n\n{asctime(localtime(time()))}____________________________________________________________")
         for message in message_list:
                 print(message)

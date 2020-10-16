@@ -127,27 +127,25 @@ def getwords(w_words):
                         of the word
                 Add +1 to the relative (to last_word)
                 """
-                if word in wordlist:
-                        if last_word!=" ":
-                                count[wordlist.index(last_word)]\
-                                        [wordlist.index(word)]+=1
 
                 #if not found
                 #add it to the wordlist
                 #count should get a new instance
                 #relative count gets a new instance for each list
-                else:
+                
+                if word not in wordlist:
                         wordlist.append(word)
                         count.append([])
                         for i in range(len(count)):
                                 count[i].append(0)
                                 while len(count[i])<len(count):
                                         count[i].append(0)
-                                        
-                        #print(len(wordlist))
-                        if last_word!=" ":
-                                count[wordlist.index(last_word)]\
-                                [wordlist.index(word)]+=1
+
+
+
+                if last_word!=" ":
+                        count[wordlist.index(last_word)]\
+                        [wordlist.index(word)]+=1
                         
                 last_word=word
                 
@@ -165,15 +163,17 @@ def makeNewchats(c_choice):
         count_sorted=sortlist(count_sorted)
         #print("count_sorted",count_sorted[0])
         #print("count",count[0])
-        last_word=wordlist[(randint(0,len(wordlist)-1))]
+        
         r=0
         #sentences
         relative()
         for i in range(100):
                 message=starter[c_choice]+":"
+                last_word=wordlist[(randint(0,len(wordlist)-1))]
                 #words
                 for j in range(randint(5,25)):
                         r=random()
+                        #print(r)
                         #find the random word
                         for k in range(len(count_sorted[wordlist.index(last_word)])):
                                 if count_sorted[wordlist.index(last_word)][k]>r:
@@ -186,12 +186,12 @@ def makeNewchats(c_choice):
                                         #print(j)
                                         #print(k)
                                         #print(r)
-                                        print("k",count_sorted[wordlist.index(last_word)][k])
-                                        print("k-1",count_sorted[wordlist.index(last_word)][k-1])
-                                        print("k- k-1",(count_sorted[wordlist.index(last_word)][k]) - (count_sorted[wordlist.index(last_word)][k-1]))
+                                        #print("k",count_sorted[wordlist.index(last_word)][k])
+                                        #print("k-1",count_sorted[wordlist.index(last_word)][k-1])
+                                        #print("k- k-1",(count_sorted[wordlist.index(last_word)][k]) - (count_sorted[wordlist.index(last_word)][k-1]))
                                         #print("count[wordlist.index(last_word)]",count[wordlist.index(last_word)])
                                         #print("count_sorted[wordlist.index(last_word)]",count_sorted[wordlist.index(last_word)])
-                                        print(wordlist)
+                                        #print("wordlist",wordlist)
                                         message+=" "+wordlist[count[wordlist.index(last_word)].index(\
                                                         int(1000000*\
                                                             (count_sorted[wordlist.index(last_word)][k]\

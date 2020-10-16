@@ -4,8 +4,10 @@ from random import choices
 from time import time
 from time import localtime
 from time import asctime
+#all users should be put in this list
+#e.g. starter= ["NessinMorse","-. . ... ..."] etc.
+starter = []
 
-starter = ["Fujoshi-chan", "-. . ... ..."]
 start_count = [0, 0]
 wordlist = []
 count = []
@@ -18,8 +20,8 @@ def openfile():
         in:nothing
         out:depending on functions in-line
         """
-        infile = open("vallie_marc.txt", "r", encoding='utf-8')
-        choice = int(input("Welke chatter wil je als basis gebruiken?\n"))
+        infile = open("name_of_file", "r", encoding='utf-8')
+        choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
         data = infile.readlines()
         for line in data:
                 chat_index = getchatter(line)

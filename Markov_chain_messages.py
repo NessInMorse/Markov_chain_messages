@@ -1,11 +1,13 @@
 from random import randint
 from random import random
+from sys import getsizeof
 
-starter=["Fujoshi-chan","-. . ... ..."]
-start_count=[0,0]
-wordlist=[]
-count=[]
-message_list=[]
+starter = ["Fujoshi-chan", "-. . ... ..."]
+start_count = [0, 0]
+wordlist = []
+count = []
+message_list = []
+
 
 def openfile():
         """
@@ -13,32 +15,30 @@ def openfile():
         in:nothing
         out:depending on functions in-line
         """
-        infile=open("vallie_marc.txt","r",encoding='utf-8')
-        choice=int(input("Welke chatter wil je als basis gebruiken?\n"))
-        data=infile.readlines()
+        infile = open("vallie_marc.txt", "r", encoding='utf-8')
+        choice = int(input("Welke chatter wil je als basis gebruiken?\n"))
+        data = infile.readlines()
         for line in data:
-                chat_index=getchatter(line)
-                if line.count(starter[choice])!=0:
-                        words=removeNewlines(line,chat_index)
+                chat_index = getchatter(line)
+                if line.count(starter[choice]) != 0:
+                        words = removeNewlines(line, chat_index)
                         getwords(words)
-                        #print("len(count)",len(count))
-                        #print("len(wordlist)",len(wordlist))
-                        #print("wordlist[len(wordlist)-1]",wordlist[len(wordlist)-1])
-                del data[0]
+                        print("wordlist", getsizeof(wordlist))
+                        print("count                    ", getsizeof(count))
+                        # print("len(count)",len(count))
+                        # print("len(wordlist)",len(wordlist))
+                        # print("wordlist[len(wordlist)-1]",wordlist[len(wordlist)-1])
 
         infile.close()
         makeNewchats(choice)
-
-        
-        n_chat=sum(start_count)
-        for i in range(len(start_count)):
-                start_count[i]=float(start_count[i]/n_chat)
-        print("start_count",start_count)
-        print("n_chat",n_chat)
-        print("len(wordlist)",len(wordlist))
-        print("len(count)",len(count))
-        print("len(count[0])",len(count[0]))
-
+        # n_chat=sum(start_count)
+        # for i in range(len(start_count)):
+        # start_count[i]=float(start_count[i]/n_chat)
+        # print("start_count",start_count)
+        # print("n_chat",n_chat)
+        # print("len(wordlist)",len(wordlist))
+        # print("len(count)",len(count))
+        # print("len(count[0])",len(count[0]))
 
 
 def getchatter(c_line):
@@ -50,18 +50,19 @@ def getchatter(c_line):
         """
         global start_count
         global starter
-        if c_line.count(":")>0 and c_line.count("-")>0 and len(c_line)>18\
+        if c_line.count(":") > 0 and c_line.count("-") > 0\
+           and len(c_line) > 18\
            and c_line[0].isdigit() and c_line[3].isdigit():
-                        #print(line)
-                stripe_index=c_line.index("-")
-                double_index=stripe_index+\
-                c_line[stripe_index:].index(":")
+                        # print(line)
+                stripe_index = c_line.index("-")
+                double_index = stripe_index +\
+                        c_line[stripe_index:].index(":")
                         
-                chatter=c_line[stripe_index+2:double_index]
-                if starter.count(chatter)==1:
-                        start_count[starter.index(chatter)]+=1
+                chatter = c_line[stripe_index+2:double_index]
+                if starter.count(chatter) == 1:
+                        start_count[starter.index(chatter)] += 1
 
-                return double_index+2
+                return double_index + 2
         else:
                 return 0
 
@@ -72,19 +73,23 @@ def removeNewlines(n_line,n_index):
         in: line, index of starting message
         out: words without the newlines
         """
-        words=n_line[n_index:].split(" ")
+        words = n_line[n_index:].split(" ")
         for word in range(len(words)):
                 #Removes all newlines in the sentences
-                if words[word].count("\n")>0:
+                if words[word].count("\n") > 0:
                         #print("je moeder",words[word].index("\n"))
-                        words[word]=words[word][:words[word].index("\n")]
+                        words[word] = words[word][:words[word].index("\n")]
                         #print(words[word])
         
         for i in range(len(words)):
-                if words[i].find(".")!=-1 or words[i].find("?")!=-1 or words[i].find(",")!=-1 or words[i].find("\'")!=-1 or words[i].find("\"")!=-1:
-                        words[i]=removeElements(words[i])
-                if len(words[i])>30:
-                        words[i]=""
+                if words[i].find(".") !=- 1\
+                   or words[i].find("?") !=- 1\
+                   or words[i].find(",") != -1\
+                   or words[i].find("\'") != -1\
+                   or words[i].find("\"") != -1:
+                        words[i] = removeElements(words[i])
+                if len(words[i]) > 30:
+                        words[i] = ""
                         
                 
         return words
@@ -92,21 +97,20 @@ def removeNewlines(n_line,n_index):
 
 def removeElements(word):
         word=list(word)
-        while word.count(".")>0 or word.count("?")>0 or word.count(",")>0 or word.count("\'")>0 or word.count("\"")>0:
-                if word.count(".")>0:
+        while word.count(".") > 0 or word.count("?") > 0 or word.count(",") > 0\
+              or word.count("\'") > 0 or word.count("\"") > 0:
+                if word.count(".") > 0:
                         word.remove(".")
-                if word.count("?")>0:
+                if word.count("?") > 0:
                         word.remove("?")
-                if word.count(",")>0:
+                if word.count(",") > 0:
                         word.remove(",")
-                if word.count("\'")>0:
+                if word.count("\'") > 0:
                         word.remove("\'")
-                if word.count("\"")>0:
+                if word.count("\"") > 0:
                         word.remove("\"")
 
         return "".join(word)
-                
-                
 
 
 def getwords(w_words):
@@ -119,7 +123,7 @@ def getwords(w_words):
         global count
         #print("w_line",w_line)
         #print("w_words",w_words)
-        last_word=" "
+        last_word = " "
         for word in w_words:
                 word=word.lower()
                 """
@@ -143,13 +147,14 @@ def getwords(w_words):
 
 
 
-                if last_word!=" ":
+                if last_word != " ":
                         count[wordlist.index(last_word)]\
-                        [wordlist.index(word)]+=1
+                        [wordlist.index(word)] += 1
                         
-                last_word=word
+                last_word = word
                 
         #print(w_words)
+
 
 def makeNewchats(c_choice):
         """
@@ -168,11 +173,11 @@ def makeNewchats(c_choice):
         #sentences
         relative()
         for i in range(100):
-                message=starter[c_choice]+":"
-                last_word=wordlist[(randint(0,len(wordlist)-1))]
+                message = starter[c_choice]+":"
+                last_word = wordlist[(randint(0,len(wordlist)-1))]
                 #words
                 for j in range(randint(5,25)):
-                        r=random()
+                        r = random()
                         #print(r)
                         #find the random word
                         for k in range(len(count_sorted[wordlist.index(last_word)])):
@@ -192,17 +197,17 @@ def makeNewchats(c_choice):
                                         #print("count[wordlist.index(last_word)]",count[wordlist.index(last_word)])
                                         #print("count_sorted[wordlist.index(last_word)]",count_sorted[wordlist.index(last_word)])
                                         #print("wordlist",wordlist)
-                                        message+=" "+wordlist[count[wordlist.index(last_word)].index(\
+                                        message += " "+wordlist[count[wordlist.index(last_word)].index(\
                                                         int(1000000*\
                                                             (count_sorted[wordlist.index(last_word)][k]\
-                                                             -count_sorted[wordlist.index(last_word)][k-1])))]
-                                        last_word=wordlist[count[wordlist.index(last_word)].index\
+                                                             -count_sorted[wordlist.index(last_word)][k - 1])))]
+                                        last_word = wordlist[count[wordlist.index(last_word)].index\
                                                            (int(1000000*\
                                                                 (count_sorted[wordlist.index(last_word)][k]\
-                                                                 -count_sorted[wordlist.index(last_word)][k-1])))]
+                                                                 -count_sorted[wordlist.index(last_word)][k - 1])))]
                                         
                 message_list.append(message)
-                message=""
+                message = ""
 
 
 def relative():
@@ -214,8 +219,8 @@ def relative():
         global count
         
         for i in range(len(count)):
-                total=sum(count[i])
-                if total==0:
+                total = sum(count[i])
+                if total == 0:
                         total=1
                 for j in range(len(count[i])):
                         count[i][j]=int(1000000*(count[i][j]/total))
@@ -228,25 +233,30 @@ def sortlist(listing):
         out: sorted list
         """
         total=1
+        
         for i in range(len(listing)):
                 #print("before",listing[i])
                 listing[i].sort(reverse=True)
                 #print("after",listing[i])
-                total=sum(listing[i])
+                total = sum(listing[i])
 
-                if total==0:
-                        total=1
+                """
+                Avoid division by 0
+                """
+                if total == 0:
+                        total = 1
                 
                 for j in range(len(listing[i])):
-                        
+                        """
+                        creating a cumulative list
+                        """
                         if j>0 and i==0:
                                 #print(listing[i][j]+listing[i][j-1])
-                                listing[i][j]=listing[i][j-1]+(listing[i][j]/total)
+                                listing[i][j] = listing[i][j - 1]\
+                                               + (listing[i][j] / total)
                         else:
-                                listing[i][j]=listing[i][j]/total
+                                listing[i][j] = listing[i][j] / total
         return listing
-        
-
 
 
 def main():

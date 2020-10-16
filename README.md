@@ -10,4 +10,4 @@ instructions:
 -------
 When running the file:
 * Fill in which of the users you want to generate fake messages for
-* **These should be __integers__**
+* **Input should be __integers__**

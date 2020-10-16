@@ -20,7 +20,7 @@ def openfile():
         data = infile.readlines()
         for line in data:
                 chat_index = getchatter(line)
-                if line.count(starter[choice]) != 0:
+                if starter[choice] in line 0:
                         words = removeNewlines(line, chat_index)
                         getwords(words)
                         print("wordlist", getsizeof(wordlist))

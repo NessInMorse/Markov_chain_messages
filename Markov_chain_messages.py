@@ -1,9 +1,6 @@
-from random import randint
+from random import randint, choices
 from sys import getsizeof
-from random import choices
-from time import time
-from time import localtime
-from time import asctime
+from time import time, localtime, asctime
 #all users should be put in this list
 #e.g. starter= ["NessinMorse","-. . ... ..."] etc.
 starter = []

@@ -20,7 +20,7 @@ def openfile():
         infile = open("name_of_file", "r", encoding='utf-8')
         choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
         data = infile.readlines()
-        for line in data:
+        for line in data[1:]:
                 chat_index = getchatter(line)
                 if starter[choice] in line:
                         words = removeNewlines(line, chat_index)

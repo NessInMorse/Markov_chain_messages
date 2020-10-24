@@ -33,15 +33,18 @@ def openfile():
         print(starter)
         infile.close()
         choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
+        c=0
         for line in data:
                 if line.find("chat")==-1 or line.find("end-to-end")==-1:
                         if starter[choice] in line:
                                 line=line.split(":")[start][1:]
                                 words = removeNewlines(line)
                                 getwords(words)
+                                c+=1
         infile.close()
         makeNewchats(choice)
-        return begin
+        return begin, c
+
 
 def FindSentence(lines):
         """
@@ -188,7 +191,7 @@ def makeNewchats(c_choice):
 
 
 def main():
-        begin=openfile()
+        begin,messages=openfile()
         spring=open("analysis.txt","a",encoding='utf-8')
         spring.write(f"\n{asctime(localtime(time()))}____________________________________________________________\n")
         for message in message_list:
@@ -196,7 +199,12 @@ def main():
                 spring.write(f"{message}\n")
         spring.close()
         end=int(time())
-        print(f"Computing took {end-begin} seconds")
+        print(f"\nComputing took {end-begin} seconds")
+        som=0
+        for i in count:
+                som+=sum(i)
+        print(f"{som} Datapoints out of {messages} lines")
+
 
 
 main()

@@ -5,7 +5,6 @@ Using A markov chain to generate fake messages
 import any whatsapp export file into this program and see what happens
 -------
 instructions:
-* name users (with their respective names within the chat) in the global list: (**Line 6**) **starter** 
 * name the export whatsapp file in: (**Line 20**) infile = open("**here**", "r", encoding='utf-8')
 -------
 When running the file:

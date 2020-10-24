@@ -20,16 +20,18 @@ def openfile():
         infile = open("name_of_file", "r", encoding='utf-8')
         choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
         data = infile.readlines()
-        for line in data[1:]:
-                chat_index = getchatter(line)
-                if starter[choice] in line:
-                        words = removeNewlines(line, chat_index)
-                        getwords(words)
-                        #print("wordlist", getsizeof(wordlist))
-                        #print("count                    ", getsizeof(count))
-                        # print("len(count)",len(count))
-                        # print("len(wordlist)",len(wordlist))
-                        # print("wordlist[len(wordlist)-1]",wordlist[len(wordlist)-1])
+        infile.close()
+        for line in data:
+                if line.find("Berichten en oproepen in deze chat zijn nu beveiligd met end-to-end versleuteling. Tik voor meer informatie.")==-1:
+                        chat_index = getchatter(line)
+                        if starter[choice] in line:
+                                words = removeNewlines(line, chat_index)
+                                getwords(words)
+                                #print("wordlist", getsizeof(wordlist))
+                                #print("count                    ", getsizeof(count))
+                                # print("len(count)",len(count))
+                                # print("len(wordlist)",len(wordlist))
+                                # print("wordlist[len(wordlist)-1]",wordlist[len(wordlist)-1])
 
         infile.close()
         makeNewchats(choice)

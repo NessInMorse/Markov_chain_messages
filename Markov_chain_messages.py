@@ -17,67 +17,48 @@ def openfile():
         in:nothing
         out:depending on functions in-line
         """
+        begin=int(time())
         infile = open("name_of_file", "r", encoding='utf-8')
         choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
-        data = infile.readlines()
+                data = infile.readlines()
+        start=FindSentence(data[0:int(len(data)/10)])
         infile.close()
         for line in data:
-                if line.find("Berichten en oproepen in deze chat zijn nu beveiligd met end-to-end versleuteling. Tik voor meer informatie.")==-1:
-                        chat_index = getchatter(line)
+                if line.find("chat")==-1 or line.find("end-to-end")==-1:
                         if starter[choice] in line:
-                                words = removeNewlines(line, chat_index)
+                                line=line.split(":")[start][1:]
+                                words = removeNewlines(line)
                                 getwords(words)
-                                #print("wordlist", getsizeof(wordlist))
-                                #print("count                    ", getsizeof(count))
-                                # print("len(count)",len(count))
-                                # print("len(wordlist)",len(wordlist))
-                                # print("wordlist[len(wordlist)-1]",wordlist[len(wordlist)-1])
-
         infile.close()
         makeNewchats(choice)
-        # n_chat=sum(start_count)
-        # for i in range(len(start_count)):
-        # start_count[i]=float(start_count[i]/n_chat)
-        # print("start_count",start_count)
-        # print("n_chat",n_chat)
-        # print("len(wordlist)",len(wordlist))
-        # print("len(count)",len(count))
-        # print("len(count[0])",len(count[0]))
+        return begin
 
-
-def getchatter(c_line):
+def FindSentence(lines):
         """
-        Get the chatters and put them into a starter
-        in:line
-        out:starter list with all the people that chat,
-                with all reoccurances
+        Finds the median for the amount of :'s in a chat
+        in: 10% of the lines in the chat
+        out: the median of :'s
         """
-        global start_count
-        global starter
-        if c_line.count(":") > 0 and c_line.count("-") > 0\
-           and len(c_line) > 18\
-           and c_line[0].isdigit() and c_line[3].isdigit():
-                        # print(line)
-                stripe_index = c_line.index("-")
-                double_index = stripe_index +\
-                        c_line[stripe_index:].index(":")
-                        
-                chatter = c_line[stripe_index+2:double_index]
-                if starter.count(chatter) == 1:
-                        start_count[starter.index(chatter)] += 1
-
-                return double_index + 2
-        else:
-                return 0
+        double=[]
+        median=0
+        count=0
+        for line in lines:
+                double.append(line.count(":"))
+        unique=set(double)
+        for element in unique:
+                if double.count(element)>count:
+                        count=double.count(element)
+                        median=element
+        return median
 
 
-def removeNewlines(n_line,n_index):
+def removeNewlines(message):
         """
         Removes all newlines in the messages
         in: line, index of starting message
         out: words without the newlines
         """
-        words = n_line[n_index:].split(" ")
+        words=message.split()
         for word in range(len(words)):
                 #Removes all newlines in the sentences
                 if words[word].count("\n") > 0:
@@ -174,7 +155,6 @@ def makeNewchats(c_choice):
         #print("count",count[0])
         
         #sentences
-        #relative()
         for i in range(100):
                 message = starter[c_choice]+":"
                 last_word = randint(0,len(wordlist)-1)
@@ -182,20 +162,22 @@ def makeNewchats(c_choice):
                 for j in range(randint(5,25)):
                         new_word=count[last_word].index(choices(count[last_word],count[last_word])[0])
                         message+=" "+wordlist[new_word]
-                        last_word=count[last_word].index(choices(count[last_word],count[last_word])[0])
+                        last_word=new_word
                                         
                 message_list.append(message)
                 message = ""
 
 
 def main():
-        openfile()
-        file=open("analysis.txt","a",encoding='utf-8')
-        file.write(f"\n{asctime(localtime(time()))}____________________________________________________________\n")
+        begin=openfile()
+        spring=open("analysis.txt","a",encoding='utf-8')
+        spring.write(f"\n{asctime(localtime(time()))}____________________________________________________________\n")
         for message in message_list:
                 print(message)
-                file.write(f"{message}\n")
-        file.close()
+                spring.write(f"{message}\n")
+        spring.close()
+        end=int(time())
+        print(f"Computing took {end-begin} seconds")
 
 
 main()

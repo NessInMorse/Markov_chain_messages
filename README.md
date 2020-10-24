@@ -9,5 +9,7 @@ instructions:
 -------
 When running the file:
 * Fill in which file you want to open
+* Input can be either the name of the file in the folder or the index in the list
+------
 * Fill in which of the users you want to generate fake messages for
 * **Input should be __integers__**

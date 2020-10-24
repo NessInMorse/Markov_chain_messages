@@ -1,11 +1,9 @@
 from random import randint, choices
 from sys import getsizeof
 from time import time, localtime, asctime
-#all users should be put in this list
-#e.g. starter= ["NessinMorse","-. . ... ..."] etc.
-starter = []
 
-start_count = [0 for i in starter]
+starter = []
+start_count = []
 wordlist = []
 count = []
 message_list = []
@@ -19,10 +17,12 @@ def openfile():
         """
         begin=int(time())
         infile = open("name_of_file", "r", encoding='utf-8')
-        choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
-                data = infile.readlines()
+        data = infile.readlines()
         start=FindSentence(data[0:int(len(data)/10)])
+        FindChatter(start,data[0:int(len(data)/10)])
+        print(starter)
         infile.close()
+        choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
         for line in data:
                 if line.find("chat")==-1 or line.find("end-to-end")==-1:
                         if starter[choice] in line:
@@ -50,6 +50,15 @@ def FindSentence(lines):
                         count=double.count(element)
                         median=element
         return median
+
+def FindChatter(message_index,lines):
+        global starter
+        for line in lines:
+                line=line.split(":")
+                if len(line)>3:
+                        if line[message_index-1][5:] not in starter:
+                                print(line[message_index-1][5:])
+                                starter.append(line[message_index-1][5:])
 
 
 def removeNewlines(message):

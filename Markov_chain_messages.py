@@ -15,8 +15,18 @@ def openfile():
         in:nothing
         out:depending on functions in-line
         """
+        dir_list = listdir(getcwd())
+        file=""
+        while file not in range(len(dir_list)):
+                file=input(f"Which file would you like to open?\n {dir_list}\n").strip()
+                print(file)
+                if file.isdigit():
+                        file=int(file)
+                elif file in dir_list:
+                        file=dir_list.index(file)
+                
         begin=int(time())
-        infile = open("name_of_file", "r", encoding='utf-8')
+        infile = open(f"{dir_list[file]}", "r", encoding='utf-8')
         data = infile.readlines()
         start=FindSentence(data[0:int(len(data)/10)])
         FindChatter(start,data[0:int(len(data)/10)])

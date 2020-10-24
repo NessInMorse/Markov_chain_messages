@@ -5,7 +5,7 @@ from time import time, localtime, asctime
 #e.g. starter= ["NessinMorse","-. . ... ..."] etc.
 starter = []
 
-start_count = [0, 0]
+start_count = [0 for i in starter]
 wordlist = []
 count = []
 message_list = []

@@ -47,15 +47,14 @@ def openfile():
         return begin, c
 
 
-
 def FindSentence(lines):
         """
-        Finds the median for the amount of :'s in a chat
-        in: 10% of the lines in the chat
-        out: the median of :'s
+        Finds the mode for the amount of :'s in a chat
+        in: 10% of the lines in the chat (list)
+        out: the mode of :'s (int)
         """
         double=[]
-        median=0
+        mode=0
         count=0
         for line in lines:
                 double.append(line.count(":"))
@@ -63,8 +62,9 @@ def FindSentence(lines):
         for element in unique:
                 if double.count(element)>count:
                         count=double.count(element)
-                        median=element
-        return median
+                        mode=element
+        return mode
+
 
 def FindChatter(message_index,lines):
         global starter

@@ -30,7 +30,7 @@ class DnaMenu:
                 chatlist = []
 
                 self.file_label = Label(self.title_frame,
-                                        text="__Kies welke file je wilt openen__")
+                                        text="__Choose what file to open__")
                 self.file_label.pack(side="left")
 
 
@@ -80,7 +80,7 @@ class DnaMenu:
                 
                 listing = []
                 self.chatter_label = Label(self.messages_frame,
-                                           text="Welke chatter wil je kiezen?")
+                                           text="Which chatter\n would you like to generate fake messages for")
                 self.chatter_label.pack()
                 for element in range(len(starter)):
                         listing.append(Radiobutton(self.messages_frame,

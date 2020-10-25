@@ -35,15 +35,17 @@ def openfile():
         choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
         c=0
         for line in data:
-                if line.find("chat")==-1 or line.find("end-to-end")==-1:
-                        if starter[choice] in line:
-                                line=line.split(":")[start][1:]
-                                words = removeNewlines(line)
+                if line.count(":")>=start and (line.find("chat")==-1 or line.find("end-to-end")==-1):
+                        #print(line)
+                        line=line.split(":")
+                        if starter[choice] in line[start-1]:
+                                words = removeNewlines(line[start][1:])
                                 getwords(words)
                                 c+=1
         infile.close()
         makeNewchats(choice)
         return begin, c
+
 
 
 def FindSentence(lines):

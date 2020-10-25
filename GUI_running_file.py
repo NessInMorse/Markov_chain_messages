@@ -288,23 +288,5 @@ class DnaMenu:
                         message_list.append(message)
                         message = ""
 
-
-        def main():
-                begin,messages=openfile()
-                spring=open("analysis.txt","a",encoding='utf-8')
-                spring.write(f"\n{asctime(localtime(time()))}____________________________________________________________\n")
-                for message in message_list:
-                        print(message)
-                        spring.write(f"{message}\n")
-                spring.close()
-                end=int(time())
-                print(f"\nComputing took {end-begin} seconds")
-                som=0
-                for i in count:
-                        som+=sum(i)
-                print(f"{som} Datapoints out of {messages} lines")
-
-
-        #main()
 dna_menu = DnaMenu()
 

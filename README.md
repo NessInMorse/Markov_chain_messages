@@ -12,4 +12,4 @@ When running the file:
 * Input can be either the name of the file in the folder or the index in the list
 ------
 * Fill in which of the users you want to generate fake messages for
-* **Input should be __integers__**
+* use the GUI version so that you don't need prior coding / programming knowledge to run the file

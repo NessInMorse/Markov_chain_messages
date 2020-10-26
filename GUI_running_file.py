@@ -1,4 +1,4 @@
-from random import randint, choices
+from random import randint, choice
 from sys import getsizeof
 from time import time, localtime, asctime
 from os import getcwd, listdir
@@ -218,7 +218,6 @@ class DnaMenu:
 
                 return "".join(word)
 
-
         def getwords(self,w_words):
                 """
                 get all the words and put them in lists
@@ -229,7 +228,11 @@ class DnaMenu:
                 global count
                 #print("w_line",w_line)
                 #print("w_words",w_words)
-                last_word = " "
+                last_word = ""
+                if wordlist==[]:
+                        wordlist.append(last_word)
+                        count.append([])
+
                 for word in w_words:
                         word=word.lower()
                         """
@@ -242,31 +245,23 @@ class DnaMenu:
                         #add it to the wordlist
                         #count should get a new instance
                         #relative count gets a new instance for each list
+
+                if word not in wordlist:
+                        wordlist.append(word)
+                        count.append([])
+                        count[wordlist.index(last_word)].append(wordlist.index(word))
+
+                else:
+                        count[wordlist.index(last_word)].append(wordlist.index(word))
                         
-                        if word not in wordlist:
-                                wordlist.append(word)
-                                count.append([])
-                                for i in range(len(count)):
-                                        count[i].append(0)
-                                        while len(count[i])<len(count):
-                                                count[i].append(0)
-
-
-
-                        if last_word != " ":
-                                count[wordlist.index(last_word)]\
-                                [wordlist.index(word)] += 1
-                                
-                        last_word = word
-                        
-                #print(w_words)
+                last_word = word
+        #print(w_words)
 
 
         def makeNewchats(self,c_choice):
                 """
                 Makes new messages based on all the words listed before
                 in:person chosen to check
-
                 """
                 global message_list
                 #count_sorted=[z[:] for z in count]
@@ -274,19 +269,23 @@ class DnaMenu:
                 #count_sorted=sortlist(count_sorted)
                 #print("count_sorted",count_sorted[0])
                 #print("count",count[0])
-                
+
                 #sentences
                 for i in range(100):
                         message = starter[c_choice]+":"
-                        last_word = randint(0,len(wordlist)-1)
+                        last_word = 0
                         #words
                         for j in range(randint(5,25)):
-                                new_word=count[last_word].index(choices(count[last_word],count[last_word])[0])
+                                if count[last_word]!=[]:
+                                        new_word=choice(count[last_word])
+                                else:
+                                        new_word=0
                                 message+=" "+wordlist[new_word]
                                 last_word=new_word
-                                                
+
                         message_list.append(message)
                         message = ""
+
 
 dna_menu = DnaMenu()
 

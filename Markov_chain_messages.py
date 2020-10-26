@@ -1,12 +1,7 @@
 from random import randint, choice
 from sys import getsizeof
 from time import time, localtime, asctime
-
-starter = []
-start_count = []
-wordlist = []
-count = []
-message_list = []
+from os import getcwd, listdir
 
 
 def openfile():
@@ -15,6 +10,12 @@ def openfile():
         in:nothing
         out:depending on functions in-line
         """
+        starter = []
+        wordlist = []
+        count = []
+        message_list = []
+
+
         dir_list = listdir(getcwd())
         file=""
         while file not in range(len(dir_list)):
@@ -29,10 +30,10 @@ def openfile():
         infile = open(f"{dir_list[file]}", "r", encoding='utf-8')
         data = infile.readlines()
         start=FindSentence(data[0:int(len(data)/10)])
-        FindChatter(start,data[0:int(len(data)/10)])
+        FindChatter(start,data[0:int(len(data)/10)],starter)
         print(starter)
         infile.close()
-        choice = int(input("What chatter would you like to choose from?\n {starter}\n"))
+        choice = int(input("Welke chatter wil je als basis gebruiken?\n"))
         c=0
         for line in data:
                 if line.count(":")>=start and (line.find("chat")==-1 or line.find("end-to-end")==-1):
@@ -40,12 +41,11 @@ def openfile():
                         line=line.split(":")
                         if starter[choice] in line[start-1]:
                                 words = removeNewlines(line[start][1:])
-                                getwords(words)
+                                wordlist,count=getwords(words,wordlist,count)
                                 c+=1
         infile.close()
-        makeNewchats(choice)
-        return begin, c
-
+        messagelist=makeNewchats(choice,starter,wordlist,count)
+        return begin, c, messagelist, count
 
 def FindSentence(lines):
         """
@@ -66,14 +66,14 @@ def FindSentence(lines):
         return mode
 
 
-def FindChatter(message_index,lines):
-        global starter
+def FindChatter(message_index,lines,c_starter):
         for line in lines:
                 line=line.split(":")
                 if len(line)>3:
-                        if line[message_index-1][5:] not in starter:
+                        if line[message_index-1][5:] not in c_starter:
                                 print(line[message_index-1][5:])
-                                starter.append(line[message_index-1][5:])
+                                c_starter.append(line[message_index-1][5:])
+        return c_starter
 
 
 def removeNewlines(message):
@@ -122,20 +122,18 @@ def removeElements(word):
         return "".join(word)
 
 
-def getwords(w_words):
+def getwords(w_words,w_wordlist,w_count):
         """
         get all the words and put them in lists
         in: line, point of start message
         out: all words, their relative reoccurance
         """
-        global wordlist
-        global count
         #print("w_line",w_line)
         #print("w_words",w_words)
         last_word = ""
-        if wordlist==[]:
-                wordlist.append(last_word)
-                count.append([])
+        if w_wordlist==[]:
+                w_wordlist.append(last_word)
+                w_count.append([])
 
         for word in w_words:
                 word=word.lower()
@@ -150,50 +148,52 @@ def getwords(w_words):
                 #count should get a new instance
                 #relative count gets a new instance for each list
 
-                if word not in wordlist:
-                        wordlist.append(word)
-                        count.append([])
-                        count[wordlist.index(last_word)].append(wordlist.index(word))
+                if word not in w_wordlist:
+                        w_wordlist.append(word)
+                        w_count.append([])
+                        w_count[w_wordlist.index(last_word)].append(w_wordlist.index(word))
 
                 else:
-                        count[wordlist.index(last_word)].append(wordlist.index(word))
+                        w_count[w_wordlist.index(last_word)].append(w_wordlist.index(word))
                         
                 last_word = word
+        return w_wordlist,w_count
+                
         #print(w_words)
 
 
-def makeNewchats(c_choice):
+def makeNewchats(c_choice,c_starter,c_wordlist,c_count):
         """
         Makes new messages based on all the words listed before
         in:person chosen to check
 
         """
-        global message_list
         #count_sorted=[z[:] for z in count]
         #print("count",count[0])
         #count_sorted=sortlist(count_sorted)
         #print("count_sorted",count_sorted[0])
         #print("count",count[0])
-        
+        message_list=[]
         #sentences
         for i in range(100):
-                message = starter[c_choice]+":"
+                message = c_starter[c_choice]+":"
                 last_word = 0
                 #words
                 for j in range(randint(5,25)):
-                        if count[last_word]!=[]:
-                                new_word=choice(count[last_word])
+                        if c_count[last_word]!=[]:
+                                new_word=choice(c_count[last_word])
                         else:
                                 new_word=0
-                        message+=" "+wordlist[new_word]
+                        message+=" "+c_wordlist[new_word]
                         last_word=new_word
                                         
                 message_list.append(message)
                 message = ""
+        return message_list
 
 
 def main():
-        begin,messages=openfile()
+        begin, messages, message_list, count = openfile()
         spring=open("analysis.txt","a",encoding='utf-8')
         spring.write(f"\n{asctime(localtime(time()))}____________________________________________________________\n")
         for message in message_list:
@@ -206,7 +206,6 @@ def main():
         for i in count:
                 som+=len(i)
         print(f"{som} Datapoints out of {messages} lines")
-
 
 
 main()

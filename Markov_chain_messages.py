@@ -132,7 +132,11 @@ def getwords(w_words):
         global count
         #print("w_line",w_line)
         #print("w_words",w_words)
-        last_word = " "
+        last_word = ""
+        if wordlist==[]:
+                wordlist.append(last_word)
+                count.append([])
+
         for word in w_words:
                 word=word.lower()
                 """
@@ -145,23 +149,16 @@ def getwords(w_words):
                 #add it to the wordlist
                 #count should get a new instance
                 #relative count gets a new instance for each list
-                
+
                 if word not in wordlist:
                         wordlist.append(word)
                         count.append([])
-                        for i in range(len(count)):
-                                count[i].append(0)
-                                while len(count[i])<len(count):
-                                        count[i].append(0)
+                        count[wordlist.index(last_word)].append(wordlist.index(word))
 
-
-
-                if last_word != " ":
-                        count[wordlist.index(last_word)]\
-                        [wordlist.index(word)] += 1
+                else:
+                        count[wordlist.index(last_word)].append(wordlist.index(word))
                         
                 last_word = word
-                
         #print(w_words)
 
 
@@ -181,10 +178,13 @@ def makeNewchats(c_choice):
         #sentences
         for i in range(100):
                 message = starter[c_choice]+":"
-                last_word = randint(0,len(wordlist)-1)
+                last_word = 0
                 #words
                 for j in range(randint(5,25)):
-                        new_word=count[last_word].index(choices(count[last_word],count[last_word])[0])
+                        if count[last_word]!=[]:
+                                new_word=choice(count[last_word])
+                        else:
+                                new_word=0
                         message+=" "+wordlist[new_word]
                         last_word=new_word
                                         
@@ -204,7 +204,7 @@ def main():
         print(f"\nComputing took {end-begin} seconds")
         som=0
         for i in count:
-                som+=sum(i)
+                som+=len(i)
         print(f"{som} Datapoints out of {messages} lines")
 
 

@@ -1,4 +1,4 @@
-from random import randint, choices
+from random import randint, choice
 from sys import getsizeof
 from time import time, localtime, asctime
 

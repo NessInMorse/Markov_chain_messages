@@ -246,15 +246,15 @@ class DnaMenu:
                         #count should get a new instance
                         #relative count gets a new instance for each list
 
-                if word not in wordlist:
-                        wordlist.append(word)
-                        count.append([])
-                        count[wordlist.index(last_word)].append(wordlist.index(word))
+                        if word not in wordlist:
+                                wordlist.append(word)
+                                count.append([])
+                                count[wordlist.index(last_word)].append(wordlist.index(word))
 
-                else:
-                        count[wordlist.index(last_word)].append(wordlist.index(word))
+                        else:
+                                count[wordlist.index(last_word)].append(wordlist.index(word))
                         
-                last_word = word
+                        last_word = word
         #print(w_words)
 
 

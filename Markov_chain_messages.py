@@ -134,7 +134,7 @@ def getwords(w_words,w_wordlist,w_count):
         if w_wordlist==[]:
                 w_wordlist.append(last_word)
                 w_count.append([])
-
+        c=0
         for word in w_words:
                 word=word.lower()
                 """
@@ -155,7 +155,10 @@ def getwords(w_words,w_wordlist,w_count):
 
                 else:
                         w_count[w_wordlist.index(last_word)].append(w_wordlist.index(word))
-                        
+                if c==len(w_words)-1:
+                        w_count[w_wordlist.index(word)].append(w_wordlist.index(""))
+    
+                c+=1
                 last_word = word
         return w_wordlist,w_count
                 
@@ -174,19 +177,23 @@ def makeNewchats(c_choice,c_starter,c_wordlist,c_count):
         #print("count_sorted",count_sorted[0])
         #print("count",count[0])
         message_list=[]
+        
         #sentences
         for i in range(100):
                 message = c_starter[c_choice]+":"
                 last_word = 0
+                new_word = 0
+                c=0
                 #words
-                for j in range(randint(5,25)):
+                while (new_word!=0 or c==0) and c<100:
                         if c_count[last_word]!=[]:
                                 new_word=choice(c_count[last_word])
+                                message+=" "+c_wordlist[new_word]
+                                last_word=new_word
                         else:
                                 new_word=0
-                        message+=" "+c_wordlist[new_word]
-                        last_word=new_word
-                                        
+                        
+                        c+=1                 
                 message_list.append(message)
                 message = ""
         return message_list
